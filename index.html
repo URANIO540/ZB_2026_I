@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de repaso — Cálculo I</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#14213A;
+    --paper:#F7F5EF;
+    --paper2:#FFFFFF;
+    --blueprint:#2E5EAA;
+    --amber:#E0954A;
+    --line:#D8D3C4;
+    --grid:#25406E;
+    --muted:#5B6478;
+    --good:#3C7A5C;
+    --exam:#7A3B2E;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  code, .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{color:var(--blueprint);}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    background:var(--ink);
+    color:var(--paper);
+    padding:6rem 6vw 5rem;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(247,245,239,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,245,239,0.06) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse at 70% 30%, black 10%, transparent 70%);
+  }
+  .hero-eyebrow{
+    position:relative;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:1.4rem;
+  }
+  .hero h1{
+    position:relative;
+    font-size:clamp(2.2rem, 4.6vw, 3.9rem);
+    font-weight:600;
+    max-width:16ch;
+    color:#fff;
+  }
+  .hero p.lead{
+    position:relative;
+    max-width:56ch;
+    margin-top:1.6rem;
+    font-size:1.05rem;
+    color:#C9CEDA;
+  }
+  .hero-meta{
+    position:relative;
+    display:flex;
+    gap:2.2rem;
+    margin-top:3rem;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{ border-left:2px solid var(--amber); padding-left:0.9rem; }
+  .hero-meta .num{
+    font-family:'Fraunces', serif;
+    font-size:1.7rem;
+    font-weight:600;
+    color:#fff;
+    display:block;
+  }
+  .hero-meta .lbl{ font-size:0.78rem; color:#9AA3B8; }
+
+  /* ===== TOC ===== */
+  .toc{
+    background:var(--paper2);
+    border-bottom:1px solid var(--line);
+    padding:1.4rem 6vw;
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    gap:0.4rem 1.3rem;
+    flex-wrap:wrap;
+    align-items:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    overflow-x:auto;
+  }
+  .toc a{
+    color:var(--ink);
+    text-decoration:none;
+    padding:0.32rem 0.65rem;
+    border-radius:3px;
+    border:1px solid transparent;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  .toc a:hover{ border-color:var(--line); background:var(--paper); }
+  .toc a.exam-link{ color:var(--exam); border-color:#E9C9BC; }
+  .toc a.exam-link:hover{ background:#FBF1EC; }
+  .toc .toc-label{ color:var(--muted); margin-right:0.2rem; text-transform:uppercase; letter-spacing:0.08em; font-size:0.7rem;}
+
+  /* ===== SECTIONS ===== */
+  main{ max-width:1080px; margin:0 auto; padding:0 6vw; }
+
+  section.topic{ padding:5rem 0 3rem; border-bottom:1px solid var(--line); }
+  section.topic:last-of-type{ border-bottom:none; }
+
+  .topic-head{ display:flex; align-items:baseline; gap:1.2rem; margin-bottom:0.6rem; }
+  .topic-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--blueprint);
+    border:1px solid var(--blueprint);
+    padding:0.15rem 0.55rem;
+    border-radius:3px;
+    flex-shrink:0;
+  }
+  .topic-head h2{ font-size:clamp(1.5rem, 2.8vw, 2.2rem); font-weight:600; }
+  .topic-sub{ color:var(--muted); max-width:68ch; margin:0.8rem 0 2.2rem; font-size:1rem; }
+
+  .logro{
+    background:#FBF3E7;
+    border-left:3px solid var(--amber);
+    padding:0.9rem 1.2rem;
+    font-size:0.92rem;
+    color:#5A4325;
+    margin-bottom:2.4rem;
+    border-radius:0 4px 4px 0;
+  }
+  .logro b{ color:var(--ink); }
+
+  .blueprint-card{
+    background:var(--ink);
+    background-image:
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size:28px 28px;
+    color:#EAF0FF;
+    border-radius:8px;
+    padding:1.8rem 2rem;
+    margin:1.6rem 0 2.4rem;
+    position:relative;
+  }
+  .blueprint-card::before{
+    content:attr(data-label);
+    position:absolute; top:0.7rem; right:1rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--amber);
+  }
+  .blueprint-card .katex{ color:#EAF0FF; font-size:1.1em;}
+  .blueprint-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:1.4rem 2rem;
+    margin-top:0.6rem;
+  }
+  .blueprint-grid .bcase{ border-left:2px solid rgba(255,255,255,0.18); padding-left:1rem; }
+  .bcase .bcase-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em;
+    color:#9FB4E0; margin-bottom:0.5rem;
+  }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:1.6rem 0 2.4rem; display:grid; gap:0.9rem; }
+  .steps li{
+    counter-increment:step;
+    display:grid; grid-template-columns:2.4rem 1fr; gap:1rem;
+    padding:0.9rem 1rem;
+    background:var(--paper2); border:1px solid var(--line); border-radius:6px;
+  }
+  .steps li::before{
+    content:counter(step);
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.3rem;
+    color:var(--blueprint); text-align:center;
+  }
+  .steps li span{ font-size:0.95rem; }
+  .steps li b{ color:var(--ink); }
+
+  h3.subhead{
+    font-size:1.05rem; margin:2.2rem 0 1rem; color:var(--ink); font-weight:600;
+    display:flex; align-items:center; gap:0.5rem;
+  }
+  h3.subhead::before{ content:""; width:10px; height:10px; background:var(--amber); display:inline-block; border-radius:2px; }
+
+  .tips{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1rem; margin-bottom:1rem; }
+  .tip{ background:var(--paper2); border:1px solid var(--line); border-radius:6px; padding:1rem 1.2rem; font-size:0.92rem; }
+  .tip .tip-icon{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--good); display:block; margin-bottom:0.4rem;
+  }
+  .tip.warn .tip-icon{ color:#B04A2F; }
+  .tip.warn{ border-color:#E9C9BC; background:#FBF1EC;}
+
+  .worked{ background:var(--paper2); border:1px solid var(--line); border-radius:6px; padding:1.4rem 1.6rem; margin:1.4rem 0 2.2rem; }
+  .worked .wk-title{
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--muted); margin-bottom:0.8rem;
+  }
+  .worked .katex-display{ margin:0.6rem 0; }
+
+  table.tbl{ width:100%; border-collapse:collapse; margin:1.4rem 0 2.2rem; font-size:0.92rem; background:var(--paper2); }
+  table.tbl th, table.tbl td{ border:1px solid var(--line); padding:0.6rem 0.8rem; text-align:left; }
+  table.tbl th{
+    background:var(--ink); color:#fff; font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em;
+  }
+
+  /* ===== SIMULACRO DE EXAMEN ===== */
+  .exam-section{
+    background:#FBF8F1;
+    padding:5rem 0 3rem;
+    border-bottom:1px solid var(--line);
+  }
+  .exam-intro-card{
+    background:var(--paper2);
+    border:1px solid var(--line);
+    border-left:4px solid var(--exam);
+    border-radius:0 6px 6px 0;
+    padding:1.2rem 1.4rem;
+    margin-bottom:2.4rem;
+    font-size:0.92rem;
+    color:#4a3a34;
+  }
+  .exam-card{
+    background:var(--paper2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:2.2rem;
+    overflow:hidden;
+  }
+  .exam-card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:1.1rem 1.5rem;
+    background:#FDF6EF;
+    border-bottom:1px solid var(--line);
+  }
+  .exam-card-head h3{
+    font-family:'Fraunces', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    margin:0;
+  }
+  .exam-points{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--exam);
+    border:1px solid var(--exam);
+    padding:0.15rem 0.6rem;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+  .exam-body{ padding:1.4rem 1.5rem 1.6rem; }
+  .exam-statement{ font-size:0.95rem; margin-bottom:1.1rem; }
+  .exam-statement .eq-block{ margin:0.8rem 0; }
+  .exam-item{
+    margin:1.1rem 0;
+    padding:0.9rem 1rem;
+    border:1px dashed var(--line);
+    border-radius:6px;
+    background:#FEFDFB;
+  }
+  .exam-item .item-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    margin-bottom:0.4rem;
+    display:block;
+  }
+  .exam-item .answer-line{
+    border-bottom:1px solid var(--line);
+    min-height:1.6rem;
+    margin-top:0.5rem;
+  }
+  details.solution{
+    margin-top:1rem;
+    border-top:1px solid var(--line);
+    padding-top:0.9rem;
+  }
+  details.solution summary{
+    cursor:pointer;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--blueprint);
+    font-weight:600;
+    outline:none;
+    list-style:none;
+  }
+  details.solution summary::-webkit-details-marker{ display:none; }
+  details.solution summary::before{
+    content:"▸ ";
+    color:var(--amber);
+  }
+  details.solution[open] summary::before{ content:"▾ "; }
+  details.solution[open] summary{ margin-bottom:0.9rem; }
+  .sol-body{ font-size:0.92rem; }
+  .sol-body .eq-block{ margin:0.6rem 0; }
+  .sol-final{
+    background:#EEF3EC;
+    border-left:3px solid var(--good);
+    padding:0.6rem 0.9rem;
+    border-radius:0 4px 4px 0;
+    margin-top:0.8rem;
+    font-size:0.9rem;
+  }
+
+  /* checklist final */
+  .checklist-section{ background:var(--ink); color:var(--paper); padding:5rem 6vw 6rem; margin-top:1rem; }
+  .checklist-inner{ max-width:1080px; margin:0 auto; }
+  .checklist-section h2{ color:#fff; font-size:clamp(1.7rem,3vw,2.4rem); margin-bottom:0.6rem; }
+  .checklist-section p.lead{ color:#AEB6C8; max-width:60ch; margin-bottom:2.6rem; }
+  .check-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.2rem; }
+  .check-card{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:1.3rem 1.4rem; }
+  .check-card .ct{
+    font-family:'IBM Plex Mono', monospace; color:var(--amber); font-size:0.75rem;
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.6rem;
+  }
+  .check-card ul{ margin:0; padding-left:1.1rem; font-size:0.88rem; color:#D5DAE4; }
+  .check-card li{ margin-bottom:0.35rem; }
+
+  footer{
+    text-align:center; padding:2rem;
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem;
+    color:var(--muted); background:var(--paper);
+  }
+
+  @media (max-width:640px){
+    .hero{padding:4rem 5vw 3.5rem;}
+    section.topic{padding:3.2rem 0 2rem;}
+    .exam-section{padding:3.2rem 0 2rem;}
+    .exam-card-head{flex-direction:column; align-items:flex-start; gap:0.4rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-eyebrow">Cálculo I · Guía de repaso para el examen</div>
+  <h1>Lo que debes dominar antes del examen</h1>
+  <p class="lead">Seis temas, un simulacro de examen con la misma estructura que el real (ítems, puntaje, evidencia) y soluciones para autocorregirte.</p>
+  <div class="hero-meta">
+    <div><span class="num">06</span><span class="lbl">temas cubiertos</span></div>
+    <div><span class="num">04</span><span class="lbl">preguntas de simulacro</span></div>
+    <div><span class="num">TVE</span><span class="lbl">vs. criterio del límite</span></div>
+    <div><span class="num">s·v·a</span><span class="lbl">cadena de antiderivadas</span></div>
+  </div>
+</header>
+
+<nav class="toc">
+  <span class="toc-label">Ir a</span>
+  <a href="#t1">1 · Optimización</a>
+  <a href="#t2">2 · Integración por partes</a>
+  <a href="#t3">3 · Sustitución trig.</a>
+  <a href="#t4">4 · Movimiento rectilíneo</a>
+  <a href="#t5">5 · Capas cilíndricas</a>
+  <a href="#t6">6 · Discos y arandelas</a>
+  <a href="#simulacro" class="exam-link">📝 Simulacro de examen</a>
+  <a href="#checklist">Checklist final</a>
+</nav>
+
+<main>
+
+  <!-- ============ TEMA 1: OPTIMIZACIÓN ============ -->
+  <section class="topic" id="t1">
+    <div class="topic-head">
+      <span class="topic-tag">01</span>
+      <h2>Optimización</h2>
+    </div>
+    <p class="topic-sub">Convertir un problema descrito en palabras en una función objetivo de una sola variable, y luego hallar su máximo o mínimo absoluto.</p>
+
+    <div class="logro"><b>Logro de la sesión:</b> resolver problemas de optimización aplicando el Teorema del Valor Extremo (TVE) o el criterio del límite.</div>
+
+    <h3 class="subhead">Los 7 pasos que debes seguir siempre</h3>
+    <ol class="steps">
+      <li><span><b>Comprender el problema.</b> ¿Cuál es la incógnita? ¿Qué se conoce? ¿Qué condiciones hay?</span></li>
+      <li><span><b>Hacer un diagrama.</b> Dibuja la situación y marca las cantidades conocidas y desconocidas.</span></li>
+      <li><span><b>Introducir notación.</b> Usa <span class="eq">\(Q\)</span> para lo que quieres optimizar y otras letras (<span class="eq">\(x, y, h, A, t\)</span>) para el resto.</span></li>
+      <li><span><b>Expresar la función objetivo.</b> Escribe <span class="eq">\(Q\)</span> en términos de las demás variables.</span></li>
+      <li><span><b>Reducir a una sola variable.</b> Usa la ecuación de enlace para dejar <span class="eq">\(Q = f(x)\)</span> y determina el <b>intervalo de decisión</b> (el dominio real del problema).</span></li>
+      <li><span><b>Analizar la función.</b> Intervalo cerrado → TVE. Intervalo abierto → criterio del límite.</span></li>
+      <li><span><b>Redactar la respuesta.</b> Interpreta el resultado en el contexto del problema, con unidades.</span></li>
+    </ol>
+
+    <div class="blueprint-card" data-label="Criterio de decisión">
+      <div class="blueprint-grid">
+        <div class="bcase">
+          <div class="bcase-title">Intervalo cerrado <span class="eq">\([a;b]\)</span></div>
+          <p style="margin:0;font-size:0.92rem;">Aplica el <b>Teorema del Valor Extremo (TVE)</b>: evalúa la función en los números críticos y en los extremos <span class="eq">\(a\)</span> y <span class="eq">\(b\)</span>. El mayor valor es el máximo absoluto; el menor, el mínimo absoluto.</p>
+        </div>
+        <div class="bcase">
+          <div class="bcase-title">Intervalo abierto <span class="eq">\(]a;b[\)</span></div>
+          <p style="margin:0;font-size:0.92rem;">Aplica el <b>criterio del límite</b>: evalúa la función en el único número crítico y compara con <span class="eq">\(\lim_{x\to a^+}\)</span> y <span class="eq">\(\lim_{x\to b^-}\)</span>. Si esos límites "se alejan" del valor crítico, ese valor es el óptimo.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="worked">
+      <div class="wk-title">Ejemplo tipo · caja de volumen máximo</div>
+      <p style="margin:0 0 0.6rem;font-size:0.92rem;">Cartón de 50×80 cm, se recortan cuadrados de lado <span class="eq">\(x\)</span> en las esquinas.</p>
+      <div class="eq-block">\[V(x) = (80-2x)(50-2x)x, \qquad x \in \,]0;25[\]</div>
+      <p style="margin:0.6rem 0;font-size:0.92rem;">Números críticos: <span class="eq">\(x=10\)</span> y <span class="eq">\(x=100/3\)</span> (fuera del intervalo). Como el intervalo es abierto, se compara <span class="eq">\(V(10)=18\,000\)</span> con los límites en 0 y 25, que dan 0. Máximo en <span class="eq">\(x=10\)</span> cm.</p>
+    </div>
+
+    <h3 class="subhead">Tips que marcan la diferencia</h3>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">Clave</span>Antes de derivar, verifica siempre si el intervalo de decisión es abierto o cerrado — de eso depende qué criterio usar.</div>
+      <div class="tip"><span class="tip-icon">Clave</span>El intervalo de decisión sale de exigir que <b>todas</b> las variables físicas sean positivas (longitudes, áreas, tiempos > 0).</div>
+      <div class="tip"><span class="tip-icon">Clave</span>En problemas "cuantitativos" (dimensión, costo, presupuesto), sigue el orden: Interpretación → Representación → Cálculo → Análisis y argumentación.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Olvidar descartar números críticos negativos o fuera del dominio físico del problema.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Confundir "minimizar costo/área" con "maximizar" al plantear la función objetivo.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>No redactar la respuesta final con unidades ni en el contexto del enunciado.</div>
+    </div>
+  </section>
+
+  <!-- ============ TEMA 2: INTEGRACIÓN POR PARTES ============ -->
+  <section class="topic" id="t2">
+    <div class="topic-head">
+      <span class="topic-tag">02</span>
+      <h2>Integración por partes</h2>
+    </div>
+    <p class="topic-sub">Técnica para integrar un producto de funciones (polinomio × exponencial, polinomio × trigonométrica, etc.) "trasladando" la derivada de un factor al otro.</p>
+
+    <div class="blueprint-card" data-label="Fórmula base">
+      <div class="eq-block" style="text-align:center;font-size:1.3rem;">\[\int u\,dv = u\cdot v - \int v\,du\]</div>
+    </div>
+
+    <h3 class="subhead">Cómo elegir u y dv — regla LIPET</h3>
+    <p style="font-size:0.94rem;max-width:70ch;">Elige <span class="eq">\(u\)</span> siguiendo este orden de prioridad (lo que aparezca primero en la lista, se vuelve <span class="eq">\(u\)</span>); lo que queda, junto con <span class="eq">\(dx\)</span>, es <span class="eq">\(dv\)</span>:</p>
+    <table class="tbl">
+      <tr><th>Orden</th><th>Tipo de función</th><th>Ejemplo</th></tr>
+      <tr><td><b>L</b></td><td>Logarítmica</td><td><span class="eq">\(\ln x\)</span></td></tr>
+      <tr><td><b>I</b></td><td>Inversa trigonométrica</td><td><span class="eq">\(\arctan x\)</span></td></tr>
+      <tr><td><b>P</b></td><td>Polinómica</td><td><span class="eq">\(x, x^2, 3x+1\)</span></td></tr>
+      <tr><td><b>E</b></td><td>Exponencial</td><td><span class="eq">\(e^{kx}\)</span></td></tr>
+      <tr><td><b>T</b></td><td>Trigonométrica</td><td><span class="eq">\(\text{sen}\,x, \cos x\)</span></td></tr>
+    </table>
+
+    <div class="worked">
+      <div class="wk-title">Ejemplo tipo · <span class="eq">\(\int x\,e^{3x}\,dx\)</span></div>
+      <p style="margin:0 0 0.6rem;font-size:0.92rem;">Entre polinomio (P) y exponencial (E), el polinomio va primero en LIPET: <span class="eq">\(u=x\)</span>, <span class="eq">\(dv=e^{3x}dx\)</span>.</p>
+      <div class="eq-block">\[u=x \Rightarrow du=dx \qquad dv=e^{3x}dx \Rightarrow v=\frac{e^{3x}}{3}\]\[\int x\,e^{3x}\,dx = \frac{x\,e^{3x}}{3}-\int\frac{e^{3x}}{3}\,dx = \frac{x\,e^{3x}}{3}-\frac{e^{3x}}{9}+C\]</div>
+    </div>
+
+    <h3 class="subhead">Tips que marcan la diferencia</h3>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">Clave</span>Si tras aplicar la fórmula la nueva integral <span class="eq">\(\int v\,du\)</span> sigue siendo un producto, puede que necesites aplicar partes <b>una segunda vez</b> (típico con <span class="eq">\(x^2e^{kx}\)</span> o <span class="eq">\(e^{ax}\text{sen}(bx)\)</span>).</div>
+      <div class="tip"><span class="tip-icon">Clave</span>Con <span class="eq">\(e^{ax}\text{sen}(bx)\)</span> o <span class="eq">\(e^{ax}\cos(bx)\)</span>, aplica partes dos veces y despeja la integral original, que reaparece con signo (método "cíclico").</div>
+      <div class="tip"><span class="tip-icon">Clave</span>Elegir bien <span class="eq">\(dv\)</span> significa elegir algo que sea fácil de integrar Y que al derivar <span class="eq">\(u\)</span> simplifique la expresión.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Olvidar la constante <span class="eq">\(+C\)</span> al final (solo en integrales indefinidas).</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Elegir <span class="eq">\(u\)</span> y <span class="eq">\(dv\)</span> al revés, lo que hace la integral más difícil en vez de más simple.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Errores de signo al aplicar <span class="eq">\(-\int v\,du\)</span>, sobre todo cuando <span class="eq">\(du\)</span> ya es negativo.</div>
+    </div>
+  </section>
+
+  <!-- ============ TEMA 3: SUSTITUCIÓN TRIGONOMÉTRICA ============ -->
+  <section class="topic" id="t3">
+    <div class="topic-head">
+      <span class="topic-tag">03</span>
+      <h2>Integración por sustitución trigonométrica</h2>
+    </div>
+    <p class="topic-sub">Técnica para integrar expresiones con raíces cuadradas de la forma <span class="eq">\(\sqrt{a^2-x^2}\)</span>, <span class="eq">\(\sqrt{x^2+a^2}\)</span> o <span class="eq">\(\sqrt{x^2-a^2}\)</span>, transformándolas en funciones trigonométricas.</p>
+
+    <div class="logro"><b>Logro de la sesión:</b> aplicar la sustitución trigonométrica considerando las identidades pitagóricas y el criterio para elegir la sustitución correcta según la forma de la raíz.</div>
+
+    <h3 class="subhead">Los 3 casos — memorízalos por la forma de la raíz</h3>
+    <div class="blueprint-card" data-label="Tabla de sustituciones">
+      <div class="blueprint-grid">
+        <div class="bcase">
+          <div class="bcase-title">Caso 1 · <span class="eq">\(\sqrt{a^2-x^2}\)</span></div>
+          <div class="eq-block">\[x = a\,\text{sen}\,\theta,\quad dx = a\cos\theta\,d\theta\]\[\sqrt{a^2-x^2}=a\cos\theta\]</div>
+        </div>
+        <div class="bcase">
+          <div class="bcase-title">Caso 2 · <span class="eq">\(\sqrt{x^2+a^2}\)</span></div>
+          <div class="eq-block">\[x = a\tan\theta,\quad dx = a\sec^2\theta\,d\theta\]\[\sqrt{x^2+a^2}=a\sec\theta\]</div>
+        </div>
+        <div class="bcase">
+          <div class="bcase-title">Caso 3 · <span class="eq">\(\sqrt{x^2-a^2}\)</span></div>
+          <div class="eq-block">\[x = a\sec\theta,\quad dx = a\sec\theta\tan\theta\,d\theta\]\[\sqrt{x^2-a^2}=a\tan\theta\]</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">Regla mnemotécnica</h3>
+    <table class="tbl">
+      <tr><th>Raíz</th><th>Letra clave</th><th>Sustitución</th></tr>
+      <tr><td><span class="eq">\(\sqrt{a^2-x^2}\)</span></td><td>s (s<b>e</b>no)</td><td><span class="eq">\(x=a\,\text{sen}\,\theta\)</span></td></tr>
+      <tr><td><span class="eq">\(\sqrt{a^2+x^2}\)</span></td><td>t (<b>t</b>angente)</td><td><span class="eq">\(x=a\tan\theta\)</span></td></tr>
+      <tr><td><span class="eq">\(\sqrt{x^2-a^2}\)</span></td><td>s (<b>s</b>ecante)</td><td><span class="eq">\(x=a\sec\theta\)</span></td></tr>
+    </table>
+
+    <div class="worked">
+      <div class="wk-title">Ejemplo tipo · caso 3 con límites de integración</div>
+      <div class="eq-block">\[\int_{2}^{2\sqrt2}\frac{\sqrt{x^2-4}}{x}\,dx,\qquad x=2\sec\theta\]</div>
+      <p style="margin:0.4rem 0;font-size:0.92rem;">Al cambiar de variable, también se cambian los límites: <span class="eq">\(x=2\Rightarrow\theta=0\)</span>; <span class="eq">\(x=2\sqrt2\Rightarrow\theta=\pi/4\)</span>. La integral se reduce a <span class="eq">\(2\int\tan^2\theta\,d\theta\)</span> usando <span class="eq">\(\tan^2\theta=\sec^2\theta-1\)</span>, y da como resultado <span class="eq">\(2(1-\pi/4)\)</span>.</p>
+    </div>
+
+    <h3 class="subhead">Tips que marcan la diferencia</h3>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">Clave</span>El triángulo rectángulo al final del procedimiento sirve para regresar de <span class="eq">\(\theta\)</span> a <span class="eq">\(x\)</span> usando razones trigonométricas y Pitágoras.</div>
+      <div class="tip"><span class="tip-icon">Clave</span>Si la integral es <b>definida</b>, conviene cambiar los límites de integración a valores de <span class="eq">\(\theta\)</span> en vez de regresar a <span class="eq">\(x\)</span> al final.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Elegir la sustitución equivocada porque no se identificó bien si el radical es suma o diferencia de cuadrados.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Olvidar el diferencial <span class="eq">\(dx\)</span> al sustituir, o no simplificarlo con la identidad pitagórica correspondiente.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>No regresar a la variable original (o a los límites originales) al final de la integral.</div>
+    </div>
+  </section>
+
+  <!-- ============ TEMA 4: MOVIMIENTO RECTILÍNEO ============ -->
+  <section class="topic" id="t4">
+    <div class="topic-head">
+      <span class="topic-tag">04</span>
+      <h2>Movimiento rectilíneo</h2>
+    </div>
+    <p class="topic-sub">Reconstruir la posición y la velocidad de un objeto a partir de su aceleración o velocidad, usando antiderivadas y condiciones iniciales — <b>no necesariamente en t = 0</b>.</p>
+
+    <div class="logro"><b>Logro de la sesión:</b> resolver problemas de movimiento rectilíneo en contextos reales, aplicando correctamente la antiderivada para hallar la posición a partir de la velocidad.</div>
+
+    <div class="blueprint-card" data-label="Cadena de antiderivadas">
+      <div class="blueprint-grid">
+        <div class="bcase">
+          <div class="bcase-title">De aceleración a velocidad</div>
+          <div class="eq-block">\[v(t) = \int a(t)\,dt\]</div>
+        </div>
+        <div class="bcase">
+          <div class="bcase-title">De velocidad a posición</div>
+          <div class="eq-block">\[s(t) = \int v(t)\,dt\]</div>
+        </div>
+        <div class="bcase">
+          <div class="bcase-title">Camino inverso (derivar)</div>
+          <p style="margin:0;font-size:0.9rem;"><span class="eq">\(a(t)=v'(t)\)</span>, &nbsp; <span class="eq">\(v(t)=s'(t)\)</span></p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">Método de las 4 dimensiones (el mismo que usa el examen)</h3>
+    <ol class="steps">
+      <li><span><b>Interpretación.</b> ¿Qué pide el problema? ¿Qué datos tienes (posición en un instante dado, velocidad inicial, aceleración)?</span></li>
+      <li><span><b>Representación.</b> Define variables con unidades y plantea la ecuación integral que corresponde (<span class="eq">\(v=\int a\,dt\)</span> o <span class="eq">\(s=\int v\,dt\)</span>).</span></li>
+      <li><span><b>Cálculo.</b> Integra, usa la condición dada (que puede ser en <span class="eq">\(t=0\)</span> u otro instante) para hallar la constante <span class="eq">\(C\)</span>, y despeja el tiempo o el valor pedido.</span></li>
+      <li><span><b>Análisis y argumentación.</b> Verifica que el resultado tenga sentido físico (tiempo positivo, dentro del dominio) y responde en el contexto del problema.</span></li>
+    </ol>
+
+    <div class="worked">
+      <div class="wk-title">Ejemplo tipo · condición inicial en t ≠ 0</div>
+      <p style="margin:0 0 0.6rem;font-size:0.92rem;"><span class="eq">\(v(t)=-t^2+9t+2\)</span> m/s, con <span class="eq">\(s(2)=6\)</span> m (la posición se conoce a los 2 segundos, no al inicio).</p>
+      <div class="eq-block">\[s(t)=-\frac{t^3}{3}+\frac{9}{2}t^2+2t+C\]\[s(2)=6 \;\Rightarrow\; -\frac{8}{3}+18+4+C=6 \;\Rightarrow\; C=-13{,}33\]</div>
+      <p style="margin:0.6rem 0 0;font-size:0.92rem;">La constante <span class="eq">\(C\)</span> se despeja igual, solo que evaluando en <span class="eq">\(t=2\)</span> en vez de <span class="eq">\(t=0\)</span>.</p>
+    </div>
+
+    <h3 class="subhead">Tips que marcan la diferencia</h3>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">Clave</span>Identifica qué te dan (¿aceleración o velocidad?) para saber cuántas veces debes integrar.</div>
+      <div class="tip"><span class="tip-icon">Clave</span>La condición dada no siempre es en <span class="eq">\(t=0\)</span>: lee bien en qué instante te dan la posición o velocidad.</div>
+      <div class="tip"><span class="tip-icon">Clave</span>Para "hallar la aceleración cuando la posición llegó a X metros", primero resuelve <span class="eq">\(s(t)=X\)</span> para <span class="eq">\(t\)</span>, y luego evalúa ese <span class="eq">\(t\)</span> en <span class="eq">\(a(t)\)</span>.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Confundir la posición inicial con la velocidad inicial al plantear las condiciones.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Descartar la solución negativa de <span class="eq">\(t\)</span> sin comentarlo — siempre se justifica con <span class="eq">\(t\geq0\)</span>.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>En el ítem de "150% de la aceleración anterior", olvidar multiplicar por 1,5 el valor de la aceleración ya hallada antes de igualar a <span class="eq">\(a(t)\)</span>.</div>
+    </div>
+  </section>
+
+  <!-- ============ TEMA 5: CAPAS CILÍNDRICAS ============ -->
+  <section class="topic" id="t5">
+    <div class="topic-head">
+      <span class="topic-tag">05</span>
+      <h2>Volumen de sólidos: método de la capa cilíndrica</h2>
+    </div>
+    <p class="topic-sub">Calcular el volumen de un sólido de revolución sumando capas cilíndricas concéntricas y delgadas.</p>
+
+    <div class="blueprint-card" data-label="Fórmula general">
+      <div class="eq-block" style="text-align:center;font-size:1.3rem;">\[V = \int_a^b 2\pi\, r\, h \; dx \quad\text{(o } dy\text{)}\]</div>
+      <p style="text-align:center;margin:0.6rem 0 0;font-size:0.9rem;color:#B9C4E0;"><span class="eq">\(r\)</span> = distancia del rectángulo al eje de giro &nbsp;·&nbsp; <span class="eq">\(h\)</span> = altura del rectángulo</p>
+    </div>
+
+    <h3 class="subhead">Los 6 pasos del procedimiento</h3>
+    <ol class="steps">
+      <li><span><b>Bosquejar y sombrear la región D.</b></span></li>
+      <li><span><b>Describir D en forma ordenada</b> (qué variable va de qué a qué).</span></li>
+      <li><span><b>Dibujar el elemento de volumen</b> (la capa cilíndrica) con sus dimensiones <span class="eq">\(r\)</span> y <span class="eq">\(h\)</span>.</span></li>
+      <li><span><b>Determinar el diferencial de volumen:</b> <span class="eq">\(dV = 2\pi r h\, dx\)</span> (o <span class="eq">\(dy\)</span>).</span></li>
+      <li><span><b>Plantear la integral definida</b> con los límites correctos.</span></li>
+      <li><span><b>Redactar la respuesta</b> con las unidades cúbicas correspondientes.</span></li>
+    </ol>
+
+    <p style="font-size:0.94rem;"><b>Recuerda:</b> el rectángulo diferencial siempre es <b>paralelo</b> al eje de giro. Úsalo cuando integrar por discos/arandelas sea más difícil (por ejemplo, si tendrías que despejar <span class="eq">\(x\)</span> en función de <span class="eq">\(y\)</span> o viceversa).</p>
+
+    <div class="worked">
+      <div class="wk-title">Ejemplo tipo · giro alrededor de x = 2</div>
+      <p style="margin:0 0 0.6rem;font-size:0.92rem;">Región entre <span class="eq">\(y=3-x^2\)</span> y <span class="eq">\(y=x+1\)</span>, girando en torno a <span class="eq">\(x=2\)</span>: el radio ya no es <span class="eq">\(x\)</span>, sino la distancia al eje <span class="eq">\(x=2\)</span>.</p>
+      <div class="eq-block">\[r = 2-x, \qquad h = (3-x^2)-(x+1) = 2-x-x^2\]\[V=\int_{-2}^{1} 2\pi(2-x)(2-x-x^2)\,dx = \frac{45\pi}{2}\approx70{,}69\ u^3\]</div>
+    </div>
+
+    <h3 class="subhead">Tips que marcan la diferencia</h3>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">Clave</span>Si el eje de giro no es coordenado (ej. <span class="eq">\(x=5\)</span>, <span class="eq">\(y=-2\)</span>), el radio es la distancia entre el rectángulo y esa recta.</div>
+      <div class="tip"><span class="tip-icon">Clave</span>La altura <span class="eq">\(h\)</span> siempre es la curva superior (o derecha) menos la inferior (o izquierda) de la región.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Usar <span class="eq">\(r=x\)</span> por defecto aunque el eje de giro no sea el eje <span class="eq">\(y\)</span>.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Olvidar el factor <span class="eq">\(2\pi\)</span> en el diferencial de volumen.</div>
+    </div>
+  </section>
+
+  <!-- ============ TEMA 6: DISCOS Y ARANDELAS ============ -->
+  <section class="topic" id="t6">
+    <div class="topic-head">
+      <span class="topic-tag">06</span>
+      <h2>Volumen de sólidos: método de discos y arandelas</h2>
+    </div>
+    <p class="topic-sub">La otra forma de calcular volúmenes de revolución: en vez de capas paralelas al eje, se apilan discos o arandelas <b>perpendiculares</b> al eje de giro. Es el método que más aparece en el examen.</p>
+
+    <div class="blueprint-card" data-label="Fórmulas">
+      <div class="blueprint-grid">
+        <div class="bcase">
+          <div class="bcase-title">Disco (una sola curva)</div>
+          <div class="eq-block">\[V=\int_a^b \pi\,[R(x)]^2\,dx\]</div>
+        </div>
+        <div class="bcase">
+          <div class="bcase-title">Arandela (región entre dos curvas)</div>
+          <div class="eq-block">\[V=\int_a^b \pi\,\big([R(x)]^2-[r(x)]^2\big)\,dx\]</div>
+        </div>
+      </div>
+      <p style="margin:1rem 0 0;font-size:0.88rem;color:#B9C4E0;text-align:center;"><span class="eq">\(R\)</span> = radio externo (curva más alejada del eje) &nbsp;·&nbsp; <span class="eq">\(r\)</span> = radio interno (curva más cercana al eje)</p>
+    </div>
+
+    <h3 class="subhead">Los 4 ítems típicos del examen (Pregunta 2)</h3>
+    <ol class="steps">
+      <li><span><b>Describir la región D en forma ordenada:</b> <span class="eq">\(D=\{(x,y)\in\mathbb{R}^2 / a\le x\le b;\ f(x)\le y\le g(x)\}\)</span>.</span></li>
+      <li><span><b>Identificar r y R</b> en el elemento típico de volumen (arandela), según el eje de giro.</span></li>
+      <li><span><b>Determinar el diferencial de volumen:</b> <span class="eq">\(dV=\pi(R^2-r^2)\,dx\)</span>.</span></li>
+      <li><span><b>Plantear la integral definida</b> con los límites de la región.</span></li>
+    </ol>
+
+    <div class="worked">
+      <div class="wk-title">Ejemplo tipo · giro alrededor del eje x</div>
+      <p style="margin:0 0 0.6rem;font-size:0.92rem;">Región entre <span class="eq">\(y=x^2-x+1\)</span> (curva interna) y <span class="eq">\(y=x+1\)</span> (curva externa), <span class="eq">\(0\le x\le2\)</span>, girando alrededor de <span class="eq">\(y=0\)</span>.</p>
+      <div class="eq-block">\[r=x^2-x+1,\qquad R=x+1\]\[V=\int_0^2\pi\big[(x+1)^2-(x^2-x+1)^2\big]\,dx = \frac{64\pi}{15}\ u^3\]</div>
+    </div>
+
+    <h3 class="subhead">Discos/arandelas vs. capas cilíndricas — ¿cuándo usar cada uno?</h3>
+    <table class="tbl">
+      <tr><th>Situación</th><th>Método recomendado</th></tr>
+      <tr><td>El rectángulo diferencial es <b>perpendicular</b> al eje de giro</td><td>Discos / arandelas</td></tr>
+      <tr><td>El rectángulo diferencial es <b>paralelo</b> al eje de giro</td><td>Capas cilíndricas</td></tr>
+      <tr><td>Despejar la variable "contraria" es complicado</td><td>Capas cilíndricas</td></tr>
+      <tr><td>La región ya está en función de la variable que necesitas</td><td>Discos / arandelas</td></tr>
+    </table>
+
+    <h3 class="subhead">Tips que marcan la diferencia</h3>
+    <div class="tips">
+      <div class="tip"><span class="tip-icon">Clave</span>Si giras alrededor del eje x, <span class="eq">\(R\)</span> y <span class="eq">\(r\)</span> se expresan en función de <span class="eq">\(x\)</span>. Si giras alrededor del eje y, en función de <span class="eq">\(y\)</span>.</div>
+      <div class="tip"><span class="tip-icon">Clave</span>Un error de identificar mal cuál curva es <span class="eq">\(R\)</span> (externa) y cuál es <span class="eq">\(r\)</span> (interna) cambia el signo del resultado — revisa cuál está más lejos del eje.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Usar <span class="eq">\((R-r)^2\)</span> en vez de <span class="eq">\(R^2-r^2\)</span> — <b>no son lo mismo</b>.</div>
+      <div class="tip warn"><span class="tip-icon">Error común</span>Olvidar elevar al cuadrado ambos radios antes de restar.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ SIMULACRO DE EXAMEN ============ -->
+<section class="exam-section" id="simulacro">
+  <main style="padding:0 6vw;">
+    <div class="topic-head">
+      <span class="topic-tag" style="color:var(--exam);border-color:var(--exam);">📝</span>
+      <h2>Simulacro de examen</h2>
+    </div>
+    <p class="topic-sub">Cuatro preguntas con la misma estructura, puntaje e ítems que el examen real. Resuélvelas primero en un papel aparte y luego despliega la solución para autocorregirte.</p>
+
+    <div class="exam-intro-card">
+      <b>Cálculo I — Simulacro</b> · Duración sugerida: 100 minutos · Total: 20 puntos<br>
+      Indicación: en las preguntas de razonamiento cuantitativo, sigue siempre el orden Interpretación → Representación → Cálculo → Análisis y argumentación.
+    </div>
+
+    <!-- PREGUNTA 1 -->
+    <div class="exam-card">
+      <div class="exam-card-head">
+        <h3>Pregunta 1</h3>
+        <span class="exam-points">3,0 puntos</span>
+      </div>
+      <div class="exam-body">
+        <p class="exam-statement">Determine la integral indefinida:</p>
+        <div class="eq-block" style="text-align:center;font-size:1.2rem;">\[\int x\,e^{2x}\,dx\]</div>
+        <div class="exam-item">
+          <span class="item-label">Desarrollo</span>
+          <div class="answer-line"></div>
+          <div class="answer-line"></div>
+          <div class="answer-line"></div>
+        </div>
+        <details class="solution">
+          <summary>Ver solución</summary>
+          <div class="sol-body">
+            <p>Por LIPET: polinomio antes que exponencial → <span class="eq">\(u=x\)</span>, <span class="eq">\(dv=e^{2x}dx\)</span>.</p>
+            <div class="eq-block">\[u=x \Rightarrow du=dx \qquad dv=e^{2x}dx \Rightarrow v=\frac{e^{2x}}{2}\]\[\int x\,e^{2x}dx = \frac{x\,e^{2x}}{2}-\int\frac{e^{2x}}{2}dx = \frac{x\,e^{2x}}{2}-\frac{e^{2x}}{4}+C\]</div>
+            <div class="sol-final">Respuesta: <span class="eq">\(\dfrac{x\,e^{2x}}{2}-\dfrac{e^{2x}}{4}+C\)</span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 2 -->
+    <div class="exam-card">
+      <div class="exam-card-head">
+        <h3>Pregunta 2</h3>
+        <span class="exam-points">4,0 puntos</span>
+      </div>
+      <div class="exam-body">
+        <p class="exam-statement">Sea el sólido de revolución formado al girar la región D limitada por las gráficas de la parábola <span class="eq">\(y=-x^2+4x\)</span> y la recta <span class="eq">\(y=x\)</span> alrededor de la recta <span class="eq">\(y=0\)</span>.</p>
+
+        <div class="exam-item">
+          <span class="item-label">I. Describa la región D en forma ordenada [1,0 p]</span>
+          <div class="answer-line"></div>
+        </div>
+        <div class="exam-item">
+          <span class="item-label">II. Indique r y R del elemento típico de volumen (arandela) [1,0 p]</span>
+          <div class="answer-line"></div>
+        </div>
+        <div class="exam-item">
+          <span class="item-label">III. Determine el diferencial de volumen [1,0 p]</span>
+          <div class="answer-line"></div>
+        </div>
+        <div class="exam-item">
+          <span class="item-label">IV. Plantee la integral definida y calcule el volumen [1,0 p]</span>
+          <div class="answer-line"></div>
+        </div>
+
+        <details class="solution">
+          <summary>Ver solución</summary>
+          <div class="sol-body">
+            <p><b>I.</b> Intersecciones: <span class="eq">\(-x^2+4x=x \Rightarrow x=0,\ x=3\)</span>. Para <span class="eq">\(x\in[0,3]\)</span>, la parábola está por encima de la recta.</p>
+            <div class="eq-block">\[D=\{(x,y)\in\mathbb{R}^2 / 0\le x\le 3;\ x\le y\le -x^2+4x\}\]</div>
+            <p><b>II.</b> Girando alrededor de <span class="eq">\(y=0\)</span> (eje x):</p>
+            <div class="eq-block">\[r=x \qquad R=-x^2+4x\]</div>
+            <p><b>III.</b></p>
+            <div class="eq-block">\[dV=\pi\big[(-x^2+4x)^2-x^2\big]\,dx\]</div>
+            <p><b>IV.</b></p>
+            <div class="eq-block">\[V=\pi\int_0^3\big[(-x^2+4x)^2-x^2\big]\,dx = 21{,}6\pi \approx 67{,}86\ u^3\]</div>
+            <div class="sol-final">Respuesta: el volumen del sólido es aproximadamente 67,86 u³.</div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 3 -->
+    <div class="exam-card">
+      <div class="exam-card-head">
+        <h3>Pregunta 3</h3>
+        <span class="exam-points">5,0 puntos</span>
+      </div>
+      <div class="exam-body">
+        <p class="exam-statement">Durante una inspección geotécnica, un vehículo de medición se desplaza en línea recta con velocidad <span class="eq">\(v(t)=-t^2+6t+2\)</span> m/s, <span class="eq">\(0\le t\le10\)</span>. Se conoce que a los 3 segundos, la posición del vehículo era de 8 metros desde el punto de inicio. Considere <span class="eq">\(s(t)\)</span>: función posición (m) y <span class="eq">\(a(t)\)</span>: función aceleración (m/s²).</p>
+
+        <div class="exam-item">
+          <span class="item-label">I. Encuentre la función posición del vehículo [1,25 p]</span>
+          <div class="answer-line"></div>
+        </div>
+        <div class="exam-item">
+          <span class="item-label">II. Determine la función aceleración del vehículo [1,25 p]</span>
+          <div class="answer-line"></div>
+        </div>
+        <div class="exam-item">
+          <span class="item-label">III. Halle la aceleración que tenía el vehículo cuando su posición llegó a 25 metros desde el punto de inicio [1,25 p]</span>
+          <div class="answer-line"></div>
+        </div>
+        <div class="exam-item">
+          <span class="item-label">IV. Determine en qué instante el vehículo alcanza una aceleración igual al 150% de la aceleración hallada en III [1,25 p]</span>
+          <div class="answer-line"></div>
+        </div>
+
+        <details class="solution">
+          <summary>Ver solución</summary>
+          <div class="sol-body">
+            <p><b>I.</b></p>
+            <div class="eq-block">\[s(t)=\int v(t)\,dt = -\frac{t^3}{3}+3t^2+2t+C\]\[s(3)=8 \Rightarrow -9+27+6+C=8 \Rightarrow C=-16\]\[s(t)=-\frac{t^3}{3}+3t^2+2t-16\]</div>
+            <p><b>II.</b></p>
+            <div class="eq-block">\[a(t)=v'(t)=-2t+6\]</div>
+            <p><b>III.</b> Se resuelve <span class="eq">\(s(t)=25\)</span>, lo que da <span class="eq">\(t\approx4{,}69\)</span> s (dentro de <span class="eq">\([0,10]\)</span>).</p>
+            <div class="eq-block">\[a(4{,}69)=-2(4{,}69)+6 \approx -3{,}38\ \text{m/s}^2\]</div>
+            <p><b>IV.</b> El 150% de −3,38 es −5,07. Se iguala a <span class="eq">\(a(t)\)</span>:</p>
+            <div class="eq-block">\[-2t+6=-5{,}07 \;\Rightarrow\; t\approx5{,}54\ \text{s}\]</div>
+            <div class="sol-final">Respuestas: III ≈ −3,38 m/s²  ·  IV ≈ 5,54 s</div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 4 -->
+    <div class="exam-card">
+      <div class="exam-card-head">
+        <h3>Pregunta 4</h3>
+        <span class="exam-points">8,0 puntos</span>
+      </div>
+      <div class="exam-body">
+        <p class="exam-statement">En un laboratorio de diseño se desarrolla un disipador térmico de aluminio con forma de paralelepípedo rectangular, cuyo largo mide <span class="eq">\(3x\)</span> cm, el ancho <span class="eq">\(x\)</span> cm y la altura <span class="eq">\(h\)</span> cm, con volumen fijo de 432 cm³. Se desea minimizar el área superficial total, ya que el costo de mecanizado depende del área inicial, con un costo de S/ 0,35 por cm². La empresa cuenta con un presupuesto de S/ 150 para el mecanizado. Si un ingeniero estima el costo de mecanizado usando el área superficial mínima, ¿en qué porcentaje su costo estimado es mayor o menor respecto al presupuesto de la empresa?</p>
+
+        <div class="exam-item">
+          <span class="item-label">Desarrollo (Interpretación → Representación → Cálculo → Análisis y argumentación)</span>
+          <div class="answer-line"></div>
+          <div class="answer-line"></div>
+          <div class="answer-line"></div>
+          <div class="answer-line"></div>
+        </div>
+
+        <details class="solution">
+          <summary>Ver solución</summary>
+          <div class="sol-body">
+            <p><b>Representación.</b> Variables: <span class="eq">\(x>0\)</span> (ancho), <span class="eq">\(h>0\)</span> (altura), <span class="eq">\(A\)</span>: área superficial (cm²).</p>
+            <div class="eq-block">\[V=3x^2h=432 \;\Rightarrow\; h=\frac{144}{x^2}\]\[A(x)=2(3x)(x)+2(3x)h+2(x)h = 6x^2+8xh\]\[A(x)=6x^2+\frac{1152}{x}, \qquad x\in\,]0;+\infty[\]</div>
+            <p><b>Cálculo.</b> Número crítico:</p>
+            <div class="eq-block">\[A'(x)=12x-\frac{1152}{x^2}=0 \;\Rightarrow\; x^3=96 \;\Rightarrow\; x\approx4{,}58\ \text{cm}\]</div>
+            <p>Como el intervalo es abierto y <span class="eq">\(A(x)\to+\infty\)</span> en los extremos, por el criterio del límite este número crítico es un mínimo.</p>
+            <div class="eq-block">\[A_{min}=A(4{,}58)\approx377{,}4\ \text{cm}^2\]</div>
+            <p><b>Análisis y argumentación.</b></p>
+            <div class="eq-block">\[\text{Costo estimado} = 0{,}35\times377{,}4 \approx S/\,132{,}10\]\[\frac{132{,}10}{150}\times100\%\approx88{,}07\%\]</div>
+            <div class="sol-final">Respuesta: el costo estimado (S/ 132,10) es aproximadamente 11,93% <b>menor</b> que el presupuesto de la empresa (S/ 150).</div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </main>
+</section>
+
+<section class="checklist-section" id="checklist">
+  <div class="checklist-inner">
+    <h2>Antes de entrar al examen, verifica que puedes...</h2>
+    <p class="lead">Esta es la lista mínima de dominio para los seis temas. Si algo no te sale de memoria, vuelve a esa sección o repite el simulacro.</p>
+    <div class="check-grid">
+      <div class="check-card">
+        <div class="ct">01 · Optimización</div>
+        <ul>
+          <li>Plantear la función objetivo y el intervalo de decisión desde un enunciado.</li>
+          <li>Decidir entre TVE y criterio del límite según el tipo de intervalo.</li>
+          <li>Redactar la respuesta con unidades y contexto.</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <div class="ct">02 · Integración por partes</div>
+        <ul>
+          <li>Elegir <span class="eq">\(u\)</span> y <span class="eq">\(dv\)</span> con la regla LIPET.</li>
+          <li>Aplicar la fórmula <span class="eq">\(\int u\,dv=uv-\int v\,du\)</span> sin errores de signo.</li>
+          <li>Reconocer cuándo hay que repetir el método o usar el truco cíclico.</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <div class="ct">03 · Sustitución trigonométrica</div>
+        <ul>
+          <li>Reconocer los 3 casos de raíz a simple vista.</li>
+          <li>Plantear <span class="eq">\(x\)</span>, <span class="eq">\(dx\)</span> y simplificar el radical con identidades pitagóricas.</li>
+          <li>Regresar a <span class="eq">\(x\)</span> (o cambiar límites) correctamente.</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <div class="ct">04 · Movimiento rectilíneo</div>
+        <ul>
+          <li>Distinguir cuándo integrar una vez o dos veces.</li>
+          <li>Usar la condición dada (aunque no sea en t = 0) para hallar C.</li>
+          <li>Resolver ítems encadenados: posición → aceleración → porcentaje.</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <div class="ct">05 · Capas cilíndricas</div>
+        <ul>
+          <li>Identificar <span class="eq">\(r\)</span> y <span class="eq">\(h\)</span> según el eje de giro.</li>
+          <li>Reconocer si el rectángulo diferencial es vertical u horizontal.</li>
+          <li>Plantear <span class="eq">\(V=\int 2\pi r h\,dx\)</span> con los límites correctos.</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <div class="ct">06 · Discos y arandelas</div>
+        <ul>
+          <li>Distinguir cuál curva es <span class="eq">\(R\)</span> (externa) y cuál es <span class="eq">\(r\)</span> (interna).</li>
+          <li>Usar <span class="eq">\(R^2-r^2\)</span>, nunca <span class="eq">\((R-r)^2\)</span>.</li>
+          <li>Decidir entre este método y capas cilíndricas según la orientación del rectángulo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>UPC + Minerva — Departamento de Ciencias · Guía de repaso y simulacro Cálculo I</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "\\(", right: "\\)", display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+
+</body>
+</html>
